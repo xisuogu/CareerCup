@@ -1,3 +1,5 @@
 
 CCSolutions/CCSolutions.suo
 CCSolutions/CodeInSharp/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+CCSolutions/CodeInSharp/bin/*
+CCSolutions/CodeInSharp/obj/*

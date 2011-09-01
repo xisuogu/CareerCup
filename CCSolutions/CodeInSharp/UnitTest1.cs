@@ -12,6 +12,7 @@ namespace CodeInSharp
         [TestMethod]
         public void TestMethod1()
         {
+            a
         }
     }
 }
