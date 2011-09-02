@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CodeInPython", "CodeInPython\CodeInPython.pyproj", "{6DC0DA3E-16B2-460E-8AB0-944D35082317}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = CCSolutions.vsmdi
@@ -23,6 +25,8 @@ Global
 		{3EE94718-18F4-4779-8959-5DAF2C9720C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EE94718-18F4-4779-8959-5DAF2C9720C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EE94718-18F4-4779-8959-5DAF2C9720C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DC0DA3E-16B2-460E-8AB0-944D35082317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC0DA3E-16B2-460E-8AB0-944D35082317}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
