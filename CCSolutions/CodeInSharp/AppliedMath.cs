@@ -182,40 +182,55 @@ namespace CareerCupCSharp
         [TestMethod]
         public void Question7_Kth_3_5_7()
         {
-            // a fast approach
-            // not 2, means half of the number is not the correct ones
-            // so probe start from 2 * K = N
-            // only divided by 3 number = N / 3
-            // only divided by 5 number = N / 5, and N/7
-            // divied only by 3, 5 = N / 15, and N / 21, N / 35
-            // divided by 3, 5, 7, N / 105
-            // three circles, A + B + C - AB - AC - BC + ABC
-            for (int i = 1; i < 20; i++)
+            // make 3 queues, put 3, 5, 7 into them.
+            // next value = min(3queues)
+            // after got a value = n:
+            //   if value is from 3's queue, enqueue 3*n, 5*n, 7*n to 3 queues
+            //   if value is from 5's queue, enqueue 5*n, 7*n to 5/7 queues
+            //   if value is from 7's queue, enqueue 7*n, to 7 queue
+            //   there is no need to enqueue 3*n to 3 queue, when n is from 5
+            //   because (n / 5 * 3) must be enqueued together with n, and it is smaller than n,
+            //   so that it would be already a previous number, when it is out, (n/5*3 *5) = 3*n is already enqueue to 5 queue
+            //   no need to enqueue again.
+            foreach (int a in Kth_3_5_7())
             {
-                Console.WriteLine(Kth_3_5_7(i));
+                if (a > 500)
+                {
+                    break;
+                }
+                Console.WriteLine(a);
             }
         }
 
-        private int Kth_3_5_7(int k)
+        private IEnumerable<int> Kth_3_5_7()
         {
-            int probe = 2 * k + 1;
+            Queue<int> q3 = new Queue<int>();
+            Queue<int> q5 = new Queue<int>();
+            Queue<int> q7 = new Queue<int>();
+            q3.Enqueue(3);
+            q5.Enqueue(5);
+            q7.Enqueue(7);
             while (true)
             {
-                int a = probe / 3;
-                int b = probe / 5;
-                int c = probe / 7;
-                int ab = probe / 15;
-                int bc = probe / 35;
-                int ac = probe / 21;
-                int abc = probe / 105;
-                int realResultOfProbe = a + b + c - ab - ac - bc + abc;
-                if (realResultOfProbe < k)
+                int value = Math.Min(q7.Peek(), Math.Min(q3.Peek(), q5.Peek()));
+                yield return value;
+                if (value == q3.Peek())
                 {
-                    probe += k - realResultOfProbe;
+                    q3.Dequeue();
+                    q3.Enqueue(value * 3);
+                    q5.Enqueue(value * 5);
+                    q7.Enqueue(value * 7);
                 }
-                else
+                if (value == q5.Peek())
                 {
-                    return probe;
+                    q5.Dequeue();
+                    q5.Enqueue(value * 5);
+                    q7.Enqueue(value * 7);
+                }
+                if (value == q7.Peek())
+                {
+                    q7.Dequeue();
+                    q7.Enqueue(value * 7);
                 }
             }
         }
