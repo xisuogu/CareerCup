@@ -16,10 +16,10 @@ namespace CodeInSharp
         [TestMethod]
         public void UseTwoStackToSort()
         {
-            Stack<int> s1 = new Stack<int>(new []{ 2, 3, 5, 9, 7, 1 });
+            Stack<int> s1 = new Stack<int>(new[] { 2, 3, 5, 9, 7, 1 });
             Stack<int> s2 = new Stack<int>();
             UseTwoStacksToSort_Impl(s1, s2);
-            while(s2.Count > 0) // when iterate stack, don't use for loop, use while loop.
+            while (s2.Count > 0) // when iterate stack, don't use for loop, use while loop.
             {
                 Console.WriteLine(s2.Pop());
             }
@@ -55,50 +55,75 @@ namespace CodeInSharp
             {
                 Left = new BinaryTreeNode() { Left = new BinaryTreeNode() },
             };
-            Assert.IsTrue(IsBalancedTree(tree1));
+            Assert.IsFalse(IsBalancedTree(tree1));
 
             BinaryTreeNode tree2 = new BinaryTreeNode()
             {
-                Left = new BinaryTreeNode() { Left = new BinaryTreeNode() { Left = new BinaryTreeNode()} },
+                Left = new BinaryTreeNode() { Left = new BinaryTreeNode() { Left = new BinaryTreeNode() } },
                 Right = new BinaryTreeNode(),
             };
             Assert.IsFalse(IsBalancedTree(tree2));
+
+            BinaryTreeNode tree3 = new BinaryTreeNode()
+            {
+                Left = new BinaryTreeNode() { Left = new BinaryTreeNode() },
+                Right = new BinaryTreeNode() { Left = new BinaryTreeNode() },
+            };
+            Assert.IsTrue(IsBalancedTree(tree3));
         }
 
         public bool IsBalancedTree(BinaryTreeNode tree)
         {
-            int temp = -1;
-            foreach (var n in TraverseLeafNode(tree, 0))
-            {
-                Console.WriteLine(n);
-                if (temp > 0 && Math.Abs(temp - n) >= 2)
-                {
-                    return false;
-                }
-                temp = n;
-            }
-            return true;
+            return MaxTreeDepth(tree) - MinTreeDepth(tree) <= 1;
         }
 
-        public IEnumerable<int> TraverseLeafNode(BinaryTreeNode tree, int depth)
+        /// <summary>
+        /// !!!!! To recite, get the max depth of the tree
+        /// </summary>
+        public int MaxTreeDepth(BinaryTreeNode tree)
         {
-            if (tree.Left != null)
+            if (tree == null)
             {
-                foreach (var t in TraverseLeafNode(tree.Left, depth + 1))
-                {
-                    yield return t;
-                }
+                return 0;
             }
-            if (tree.Right != null)
+            return 1 + Math.Max(MaxTreeDepth(tree.Left), MaxTreeDepth(tree.Right));
+        }
+
+        public int MinTreeDepth(BinaryTreeNode tree)
+        {
+            if (tree == null)
             {
-                foreach (var t in TraverseLeafNode(tree.Right, depth + 1))
-                {
-                    yield return t;
-                }
+                return 0;
             }
-            if (tree.Left == null && tree.Right == null)
+            return 1 + Math.Min(MinTreeDepth(tree.Left), MinTreeDepth(tree.Right));
+        }
+
+        /// <summary>
+        /// Given a binary tree, traverse the tree layer by layer
+        /// </summary>
+        [TestMethod]
+        public void TraverseTreeInDepthOrder()
+        {
+            BinaryTreeNode tree3 = new BinaryTreeNode(1)
             {
-                yield return depth;
+                Left = new BinaryTreeNode(2) { Left = new BinaryTreeNode(4), Right = new BinaryTreeNode(5) },
+                Right = new BinaryTreeNode(3) { Left = new BinaryTreeNode(6), Right = new BinaryTreeNode(7) },
+            };
+            // create a queue
+            Queue<BinaryTreeNode> queue = new Queue<BinaryTreeNode>();
+            queue.Enqueue(tree3);
+            while (queue.Count > 0)
+            {
+                var t = queue.Dequeue();
+                Console.WriteLine(t.Value);
+                if (t.Left != null)
+                {
+                    queue.Enqueue(t.Left);
+                }
+                if (t.Right != null)
+                {
+                    queue.Enqueue(t.Right);
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CodeInSharp;
 
 namespace CareerCupCSharp
 {
@@ -110,7 +111,7 @@ namespace CareerCupCSharp
         /// http://www.careercup.com/question?id=57210
         /// </summary>
         [TestMethod]
-        public void Question5_Add_without_using_Add()
+        public void Question6_Add_without_using_Add()
         {
             // method1: using string to hack around
             Console.WriteLine(Add_without_using_Add_Method1(5, 6));
@@ -146,7 +147,7 @@ namespace CareerCupCSharp
         /// http://www.careercup.com/question?id=1391
         /// </summary>
         [TestMethod]
-        public void Question6_Mul_Div_Minus_using_Add()
+        public void Question7_Mul_Div_Minus_using_Add()
         {
             int a = 11;
             int b = 3;
@@ -180,7 +181,7 @@ namespace CareerCupCSharp
         /// http://www.careercup.com/question?id=57139
         /// </summary>
         [TestMethod]
-        public void Question7_Kth_3_5_7()
+        public void Question8_Kth_3_5_7()
         {
             // make 3 queues, put 3, 5, 7 into them.
             // next value = min(3queues)
@@ -233,6 +234,51 @@ namespace CareerCupCSharp
                     q7.Enqueue(value * 7);
                 }
             }
+        }
+
+        /// <summary>
+        /// Input(ht wt) : (65, 100) (70, 150) (56, 90) (75, 190) (60, 95) (68, 110) , (69, 99), (76, 180)
+        /// Output: The longest tower is length 6 and includes from top to 
+        /// bottom: (56,90) (60,95) (65,100) (68,110) (70,150) (75,190) 
+        /// Rule: next(a).x > a.x, next(a).y > a.y, given a set of point, get the longest line
+        /// http://www.careercup.com/question?id=2667
+        /// </summary>
+        /// !!!!! LIS (longest increasing subsequence), important !!!
+        [TestMethod]
+        public void Question9_Two_Dimension_Sort()
+        {
+            Point[] input = new Point[] {new Point(65, 100), new Point(70, 150), new Point(56, 90), new Point(69, 99), 
+                new Point(75, 190), new Point(60, 95), new Point(68, 110) , new Point(76, 180)};
+            // step 1, sort by X
+            input = input.OrderBy(p => p.X).ToArray();
+            // step 2, get the longest increasing subsequence (LIS) in the array, compare Y
+            int[] L = new int[input.Length]; // L[i] stores the LIS.length, from input[0] to input[i]
+            // L[0] = 1, L[i] = max(L[k]) + 1  when 0 <= k < i, input[k] < input[i]
+            L[0] = 1;
+            for (int i = 1; i < input.Length; i++)
+            {
+                L[i] = 1;
+                for (int j = 0; j < i; j++)
+                {
+                    if (input[i].Y > input[j].Y)
+                    {
+                        L[i] = Math.Max(L[i], L[j] + 1);
+                    }
+                }
+            }
+            // output: now we get a L[input.lenght] result, reverse enumerate
+            for (int i = input.Length - 1; i >= 0; i--)
+            {
+                if (i > 0 && L[i] > L[i - 1])
+                {
+                    Console.WriteLine(input[i]);
+                }
+                if (i == 0 && L[0] < L[1])
+                {
+                    Console.WriteLine(input[0]);
+                }
+            }
+
         }
     }
 }
