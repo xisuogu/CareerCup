@@ -126,5 +126,47 @@ namespace CodeInSharp
                 }
             }
         }
+
+        [TestMethod]
+        public void Eight_Queen()
+        {
+            int[] data = new int[8]; // 8 rows, for each row, the element is col, from 0-7
+            int answerCount = 0;
+            PlaceQueen(data, 0, ref answerCount);
+            Console.WriteLine(answerCount + " answers in all.");
+        }
+
+        private void PlaceQueen(int[] data, int row, ref int answerCount)
+        {
+            if (row == 8) // 9th row, can display now
+            {
+                answerCount++;
+                //Console.WriteLine("====================================");
+                //Console.WriteLine("Answer " + answerCount);
+                //data.ToList().ForEach(i =>
+                //    {
+                //        int[] opt = new int[8];
+                //        opt[i] = 1;
+                //        Console.WriteLine(string.Join(" ", opt));
+                //    });
+                return;
+            }
+            for (int col = 0; col < 8; col++)
+            {
+                bool isPlacable = true;
+                for (int i = 0; i < row; i++) // check previous data, see if it is ok to place
+                {
+                    if (Math.Abs(col - data[i]) == (row - i) || data[i] == col) // check "cross line" and "same column"
+                    {
+                        isPlacable = false;
+                    }
+                }
+                if (isPlacable)
+                {
+                    data[row] = col;
+                    PlaceQueen(data, row + 1, ref answerCount);
+                }
+            }
+        }
     }
 }

@@ -247,17 +247,17 @@ namespace CareerCupCSharp
         [TestMethod]
         public void Question9_Two_Dimension_Sort()
         {
-            Point[] input = new Point[] {new Point(65, 100), new Point(70, 150), new Point(56, 90), new Point(69, 99), 
-                new Point(75, 190), new Point(60, 95), new Point(68, 110) , new Point(76, 180)};
+            Point[] input = new Point[] {new Point(56, 90), new Point(60, 95),  new Point(65, -10), new Point(68, 99), 
+                new Point(69, 110), new Point(70, 100), new Point(75, 0), new Point(76, 180)};
             // step 1, sort by X
             input = input.OrderBy(p => p.X).ToArray();
             // step 2, get the longest increasing subsequence (LIS) in the array, compare Y
-            int[] L = new int[input.Length]; // L[i] stores the LIS.length, from input[0] to input[i]
-            // L[0] = 1, L[i] = max(L[k]) + 1  when 0 <= k < i, input[k] < input[i]
+            int[] L = new int[input.Length]; // L[i] stores the LIS.length, from input[0] to input[i], LIS ends with input[i]
+            // L[0] = 1, L[i] = max(L[k] + 1, 1)  when 0 <= k < i, input[k] < input[i]
             L[0] = 1;
             for (int i = 1; i < input.Length; i++)
             {
-                L[i] = 1;
+                L[i] = 1; // if before data[i], all the element is larger than data[i], the LIS ends with data[i]'s length is only 1
                 for (int j = 0; j < i; j++)
                 {
                     if (input[i].Y > input[j].Y)
@@ -267,18 +267,15 @@ namespace CareerCupCSharp
                 }
             }
             // output: now we get a L[input.lenght] result, reverse enumerate
+            int max = L.Max();
             for (int i = input.Length - 1; i >= 0; i--)
             {
-                if (i > 0 && L[i] > L[i - 1])
+                if (L[i] == max)
                 {
                     Console.WriteLine(input[i]);
-                }
-                if (i == 0 && L[0] < L[1])
-                {
-                    Console.WriteLine(input[0]);
+                    max--;
                 }
             }
-
         }
     }
 }
