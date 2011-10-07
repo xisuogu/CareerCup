@@ -46,7 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppliedMath.cs" />
+    <Compile Include="Array.cs" />
+    <Compile Include="BinaryOperation.cs" />
     <Compile Include="CommonStructure.cs" />
+    <Compile Include="CountingCombination.cs" />
     <Compile Include="MiscProblems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
