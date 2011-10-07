@@ -135,7 +135,7 @@ namespace CareerCupCSharp
         /// http://www.careercup.com/question?id=2103
         /// </summary>
         [TestMethod]
-        public void Question3_Permute_Parentheses()
+        public void Question4_Permute_Parentheses()
         {
             char[] data = new char[8];
             PermParentheses(4, 0, 0, 0, data);
@@ -158,6 +158,28 @@ namespace CareerCupCSharp
                 data[currentPosition] = '(';
                 PermParentheses(pairCount, currentPosition + 1, openLeftCount + 1, usedLeftCount + 1, data);
             }
+        }
+
+        /// <summary>
+        /// Write a method that returns all subsets of a set. 
+        /// http://www.careercup.com/question?id=2133
+        /// </summary>
+        [TestMethod]
+        public void Question5_SubSets_Of_Set()
+        {
+            string input = "abcd";
+            var outputs = AllSubSets(input.ToCharArray());
+            outputs.ToList().ForEach(o => Console.WriteLine(new string(o)));
+        }
+
+        private IEnumerable<T[]> AllSubSets<T>(T[] input)
+        {
+            List<T[]> result = new List<T[]>();
+            for (int i = 1; i <= input.Length; i++)
+            {
+                result.AddRange(PermuteSwap(input, i));
+            }
+            return result;
         }
     }
 }
